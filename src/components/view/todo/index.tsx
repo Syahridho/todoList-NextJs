@@ -17,10 +17,10 @@ const TodoView = ({ todoDatas }: any) => {
 
   return (
     <>
-      <div className="max-w-[400px] mx-auto p-4 relative">
-        <h1 className="text-xl font-semibold">Todo</h1>
+      <div className="max-w-[400px] mx-auto p-4  relative">
+        <h1 className="text-2xl font-semibold mt-4 mb-2">Todo</h1>
         <button
-          className="bg-slate-800 py-1 px-2 text-white rounded shadow"
+          className="bg-slate-800 py-1 px-2 text-white rounded shadow mb-2"
           onClick={() => setModalCreate(true)}
         >
           add Data

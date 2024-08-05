@@ -24,7 +24,7 @@ const Modal = (props: PropsTypes) => {
   return (
     <div className="fixed w-screen h-screen z-50 bg-black bg-opacity-60 flex justify-center items-center top-0">
       <div
-        className="bg-white p-5 rounded w-[90vw] max-h-[80vh] border overflow-auto sm:w-[40vw] sm:p-8"
+        className="bg-white p-5 rounded w-[90vw] max-h-[80vh] border overflow-auto sm:w-[40vw] md:w-[30vw] sm:p-8"
         ref={ref}
       >
         {children}
