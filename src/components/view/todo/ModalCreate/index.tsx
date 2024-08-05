@@ -1,37 +1,54 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import Modal from "@/components/ui/Modal";
 import todoServices from "@/services/todo";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
 
 const ModalCreate = (props: any) => {
   const { setModalCreate, setTodoData } = props;
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
     const form: any = event.target as HTMLFormElement;
 
     const data = {
       title: form.title.value,
+      isDone: false,
     };
 
     const result = await todoServices.add(data);
 
     if (result.status === 200) {
       setModalCreate(false);
+      setIsLoading(false);
+      const { data } = await todoServices.getAll();
+      setTodoData(data.data);
     } else {
-      console.log("erro");
+      setIsLoading(false);
+      console.log("error");
     }
   };
 
   return (
     <Modal onClose={() => setModalCreate(false)}>
-      <h1>Add Data</h1>
+      <h1 className="font-semibold text-lg">Add Data</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">Judul</label>
-          <input type="text" name="title" />
+        <Input title="Title" name="title" type="text" />
+        <div className="flex gap-3 mt-4">
+          <Button type="submit" className="w-1/2">
+            {isLoading ? "Loading..." : "Add"}
+          </Button>
+          <Button
+            variant="2"
+            onClick={() => setModalCreate(false)}
+            className="w-1/2"
+          >
+            Cancel
+          </Button>
         </div>
-        <button type="submit">add</button>
-        <button onClick={() => setModalCreate(false)}>cancel</button>
       </form>
     </Modal>
   );

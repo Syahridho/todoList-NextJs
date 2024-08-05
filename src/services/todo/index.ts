@@ -7,6 +7,13 @@ const todoServices = {
         Authorization: `Bearer Done`,
       },
     }),
+  getAll: () => instance.get("/api/todo"),
+  delete: (id: string) =>
+    instance.delete(`/api/todo/${id}`, {
+      headers: {
+        Authorization: `Bearer Delete`,
+      },
+    }),
 };
 
 export default todoServices;

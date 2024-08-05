@@ -1,5 +1,12 @@
 import { app } from "./init";
-import { addDoc, getFirestore, collection } from "firebase/firestore";
+import {
+  addDoc,
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 
 const firestore = getFirestore(app);
 
@@ -16,3 +23,27 @@ export async function add(
       callback(false, error);
     });
 }
+
+export const retrieveData = async (collectionName: string) => {
+  const snapshot = await getDocs(collection(firestore, collectionName));
+  const data = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return data;
+};
+
+export const deleteData = async (
+  collectionName: string,
+  id: string,
+  callback: Function
+) => {
+  const docRef = doc(firestore, collectionName, id);
+  await deleteDoc(docRef)
+    .then(() => {
+      callback(true);
+    })
+    .catch(() => {
+      callback(false);
+    });
+};

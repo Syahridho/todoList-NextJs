@@ -3,11 +3,14 @@ import { FaPenClip, FaRegTrashCan } from "react-icons/fa6";
 type PropsTypes = {
   id: string;
   title: string;
-  isDone: boolean | any;
+  isDone?: boolean | any;
+  todo: any;
+  setModalUpdate: Function;
+  setModalDelete: Function;
 };
 
 const Card = (props: PropsTypes) => {
-  const { id, title, isDone } = props;
+  const { id, title, isDone, todo, setModalUpdate, setModalDelete } = props;
   return (
     <div className="flex items-center justify-between">
       <div>
@@ -26,10 +29,16 @@ const Card = (props: PropsTypes) => {
         </label>
       </div>
       <div className="flex gap-2">
-        <button className="p-2 bg-blue-500 rounded text-white shadow">
+        <button
+          className="p-2 bg-blue-500 rounded text-white shadow"
+          onClick={() => setModalUpdate(todo)}
+        >
           <FaPenClip />
         </button>
-        <button className="p-2 bg-red-500 rounded text-white shadow">
+        <button
+          className="p-2 bg-red-500 rounded text-white shadow"
+          onClick={() => setModalDelete(todo)}
+        >
           <FaRegTrashCan />
         </button>
       </div>

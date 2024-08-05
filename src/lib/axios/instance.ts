@@ -8,7 +8,7 @@ const headers = {
 };
 
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  baseURL: process.env.NEXT_PUBLIC_FIREBASE_API_URL,
   headers,
   timeout: 60 * 1000,
 });
