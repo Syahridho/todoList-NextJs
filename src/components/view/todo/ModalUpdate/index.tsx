@@ -7,7 +7,6 @@ import { FormEvent, useState } from "react";
 const ModalUpdate = (props: any) => {
   const { setModalUpdate, updateData, setTodoData } = props;
 
-  console.log(updateData.isDone);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -18,7 +17,7 @@ const ModalUpdate = (props: any) => {
 
     const data = {
       title: form.title.value,
-      isDone: form.isDone.value,
+      isDone: form.isDone.checked,
     };
 
     const result = await todoServices.update(updateData.id, data);
