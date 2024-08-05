@@ -33,7 +33,7 @@ export default async function handler(
       }
     });
   } else if (req.method === "DELETE") {
-    const { todo }: any = req.body;
+    const { todo }: any = req.query;
     await deleteData("todo", todo[0], (result: boolean) => {
       if (result) {
         res.status(200).json({
