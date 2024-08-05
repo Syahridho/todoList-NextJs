@@ -14,6 +14,17 @@ const todoServices = {
         Authorization: `Bearer Delete`,
       },
     }),
+
+  update: (id: string, data: any) =>
+    instance.put(
+      `/api/todo/${id}`,
+      { data },
+      {
+        headers: {
+          Authorization: `Bearer Update`,
+        },
+      }
+    ),
 };
 
 export default todoServices;

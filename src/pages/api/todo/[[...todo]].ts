@@ -1,5 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { add, deleteData, retrieveData } from "@/lib/firebase/services";
+import {
+  add,
+  deleteData,
+  retrieveData,
+  updateData,
+} from "@/lib/firebase/services";
 
 export default async function handler(
   req: NextApiRequest,
@@ -36,6 +41,25 @@ export default async function handler(
     const { todo }: any = req.query;
     await deleteData("todo", todo[0], (result: boolean) => {
       if (result) {
+        res.status(200).json({
+          status: true,
+          statusCode: 200,
+          message: "success",
+        });
+      } else {
+        res.status(400).json({
+          status: false,
+          statusCode: 400,
+          message: "failed",
+        });
+      }
+    });
+  } else if (req.method === "PUT") {
+    const { todo }: any = req.query;
+    const { data } = req.body;
+
+    await updateData("todo", todo[0], data, (status: boolean) => {
+      if (status) {
         res.status(200).json({
           status: true,
           statusCode: 200,

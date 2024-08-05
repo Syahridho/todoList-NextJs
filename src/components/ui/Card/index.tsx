@@ -12,12 +12,12 @@ type PropsTypes = {
 const Card = (props: PropsTypes) => {
   const { id, title, isDone, todo, setModalUpdate, setModalDelete } = props;
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between" id={id}>
       <div>
         <input
           type="checkbox"
-          name="item"
-          id="item"
+          name="isDone"
+          id="isDone"
           className="w-4 h-4 peer"
           defaultValue={isDone}
         />

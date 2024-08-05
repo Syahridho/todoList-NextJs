@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "@/components/ui/Card";
 import ModalCreate from "./ModalCreate";
 import ModalDelete from "./ModalDelete";
+import ModalUpdate from "./ModalUpdate";
 
 const TodoView = ({ todoDatas }: any) => {
   const [todoData, setTodoData] = useState<any>([]);
@@ -30,6 +31,7 @@ const TodoView = ({ todoDatas }: any) => {
               key={todo.id}
               id={todo.id}
               title={todo.title}
+              isDone={todo.isDone}
               todo={todo}
               setModalUpdate={setModalUpdate}
               setModalDelete={setModalDelete}
@@ -47,6 +49,13 @@ const TodoView = ({ todoDatas }: any) => {
         <ModalDelete
           setModalDelete={setModalDelete}
           deleteData={modalDelete}
+          setTodoData={setTodoData}
+        />
+      )}
+      {Object.keys(modalUpdate).length > 0 && (
+        <ModalUpdate
+          setModalUpdate={setModalUpdate}
+          updateData={modalUpdate}
           setTodoData={setTodoData}
         />
       )}
