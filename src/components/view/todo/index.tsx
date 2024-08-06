@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
-import Card from "@/components/ui/Card";
+import { lazy, Suspense, useEffect, useState } from "react";
 import ModalCreate from "./ModalCreate";
 import ModalDelete from "./ModalDelete";
 import ModalUpdate from "./ModalUpdate";
+import SkeletonCardList from "@/components/ui/SkeletonCardList";
+
+const Card = lazy(() => import("@/components/ui/Card"));
 
 const TodoView = ({ todoDatas }: any) => {
   const [todoData, setTodoData] = useState<any>([]);
@@ -12,7 +14,7 @@ const TodoView = ({ todoDatas }: any) => {
   const [modalDelete, setModalDelete] = useState<any>({});
 
   useEffect(() => {
-    setTodoData(todoDatas);
+    setTodoData(todoDatas.reverse());
   }, [todoDatas]);
 
   return (
@@ -26,17 +28,23 @@ const TodoView = ({ todoDatas }: any) => {
           add Data
         </button>
         <div className="flex flex-col gap-4 my-4">
-          {todoData.map((todo: any) => (
-            <Card
-              key={todo.id}
-              id={todo.id}
-              title={todo.title}
-              isDone={todo.isDone}
-              todo={todo}
-              setModalUpdate={setModalUpdate}
-              setModalDelete={setModalDelete}
-            />
-          ))}
+          <Suspense fallback={<SkeletonCardList />}>
+            {todoData.length > 0 ? (
+              todoData.map((todo: any) => (
+                <Card
+                  key={todo.id}
+                  id={todo.id}
+                  title={todo.title}
+                  isDone={todo.isDone}
+                  todo={todo}
+                  setModalUpdate={setModalUpdate}
+                  setModalDelete={setModalDelete}
+                />
+              ))
+            ) : (
+              <h1 className="text-slate-500 text-center">Not Data</h1>
+            )}
+          </Suspense>
         </div>
       </div>
       {modalCreate && (

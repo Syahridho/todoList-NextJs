@@ -25,7 +25,6 @@ const Card = (props: PropsTypes) => {
 
     if (result.status === 200) {
       setTodos({ ...todos, isDone: !todos.isDone });
-      console.log(todos);
     } else {
       console.log("gagal");
     }
