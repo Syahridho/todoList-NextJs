@@ -13,7 +13,8 @@ interface Todo {
 }
 
 const TodoView = ({ todoDatas }: any) => {
-  const [todoData, setTodoData] = useState<any>([]);
+  const [todoData, setTodoData] = useState<Todo[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [modalCreate, setModalCreate] = useState<boolean>(false);
   const [modalUpdate, setModalUpdate] = useState<any>({});
@@ -21,6 +22,7 @@ const TodoView = ({ todoDatas }: any) => {
 
   useEffect(() => {
     setTodoData(todoDatas.reverse());
+    setIsLoading(false);
   }, [todoDatas]);
 
   return (
@@ -31,10 +33,18 @@ const TodoView = ({ todoDatas }: any) => {
           className="bg-slate-800 py-1 px-2 text-white rounded shadow mb-2"
           onClick={() => setModalCreate(true)}
         >
-          add Data
+          Add Data
         </button>
         <div className="flex flex-col gap-4 my-4">
-          {todoData.length > 0 ? (
+          {isLoading ? (
+            <>
+              {Array(5)
+                .fill(0)
+                .map((_, index) => (
+                  <SkeletonCard key={index} />
+                ))}
+            </>
+          ) : todoData.length > 0 ? (
             todoData.map((todo: Todo) => (
               <Suspense key={todo.id} fallback={<SkeletonCard />}>
                 <Card
@@ -48,7 +58,7 @@ const TodoView = ({ todoDatas }: any) => {
               </Suspense>
             ))
           ) : (
-            <h1 className="text-slate-500 text-center">Not Data</h1>
+            <h1 className="text-slate-500 text-center">No Data</h1>
           )}
         </div>
       </div>
