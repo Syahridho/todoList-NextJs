@@ -3,6 +3,7 @@ import ModalCreate from "./ModalCreate";
 import ModalDelete from "./ModalDelete";
 import ModalUpdate from "./ModalUpdate";
 import SkeletonCard from "@/components/ui/SkeletonCard";
+import { FaCircleNotch } from "react-icons/fa6";
 
 const Card = lazy(() => import("@/components/ui/Card"));
 
@@ -12,8 +13,8 @@ interface Todo {
   isDone: boolean;
 }
 
-const TodoView = ({ todoDatas }: any) => {
-  const [todoData, setTodoData] = useState<any>([]);
+const TodoView = ({ todoDatas, isLoading }: any) => {
+  const [todoData, setTodoData] = useState<any>(todoDatas.reverse());
 
   const [modalCreate, setModalCreate] = useState<boolean>(false);
   const [modalUpdate, setModalUpdate] = useState<any>({});
@@ -33,24 +34,30 @@ const TodoView = ({ todoDatas }: any) => {
         >
           add Data
         </button>
-        <div className="flex flex-col gap-4 my-4">
-          {todoData.length > 0 ? (
-            todoData.map((todo: Todo) => (
-              <Suspense key={todo.id} fallback={<SkeletonCard />}>
-                <Card
-                  id={todo.id}
-                  title={todo.title}
-                  isDone={todo.isDone}
-                  todo={todo}
-                  setModalUpdate={setModalUpdate}
-                  setModalDelete={setModalDelete}
-                />
-              </Suspense>
-            ))
-          ) : (
-            <h1 className="text-slate-500 text-center">Not Data</h1>
-          )}
-        </div>
+        {isLoading ? (
+          <div className="flex justify-center items-center mt-12">
+            <FaCircleNotch className="animate-spin w-6 h-6 text-slate-500" />
+          </div>
+        ) : (
+          <div className="flex flex-col gap-4 my-4">
+            {todoData.length > 0 ? (
+              todoData.map((todo: Todo) => (
+                <Suspense key={todo.id} fallback={<SkeletonCard />}>
+                  <Card
+                    id={todo.id}
+                    title={todo.title}
+                    isDone={todo.isDone}
+                    todo={todo}
+                    setModalUpdate={setModalUpdate}
+                    setModalDelete={setModalDelete}
+                  />
+                </Suspense>
+              ))
+            ) : (
+              <h1 className="text-slate-500 text-center">Not Data</h1>
+            )}
+          </div>
+        )}
       </div>
       {modalCreate && (
         <ModalCreate
